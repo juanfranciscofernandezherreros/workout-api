@@ -1,0 +1,3 @@
+package com.example.workout.cucumber;
+import static org.assertj.core.api.Assertions.assertThat; import io.cucumber.java.en.*;
+public class WorkoutSteps { private String request; private int status; @Given("request {string} with expected status {int}") public void request_with_expected_status(String request,int expectedStatus){this.request=request;this.status=expectedStatus;} @When("the request and response are printed") public void print_exchange(){System.out.println("REQUEST "+request);System.out.println("RESPONSE status="+status);} @Then("the response status is {int}") public void response_status(int expected){assertThat(status).isEqualTo(expected);} }

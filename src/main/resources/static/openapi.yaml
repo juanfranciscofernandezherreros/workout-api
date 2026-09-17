@@ -1,0 +1,347 @@
+openapi: 3.0.3
+info:
+  title: Workout API
+  version: 1.0.0
+servers:
+  - url: /
+tags:
+  - name: Workouts
+  - name: Shoes
+paths:
+  /api/v1/workouts:
+    post:
+      tags: [Workouts]
+      operationId: createWorkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/WorkoutCreateRequest'}
+      responses:
+        '201': {description: Created, content: {application/json: {schema: {$ref: '#/components/schemas/WorkoutResponse'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+    get:
+      tags: [Workouts]
+      operationId: searchWorkouts
+      x-spring-paginated: true
+      parameters:
+        - {name: workoutType, in: query, schema: {$ref: '#/components/schemas/WorkoutType'}}
+        - {name: workoutDate, in: query, schema: {type: string, format: date}}
+        - {name: workoutDateFrom, in: query, schema: {type: string, format: date}}
+        - {name: workoutDateTo, in: query, schema: {type: string, format: date}}
+        - {name: completed, in: query, schema: {type: boolean}}
+        - {name: shoeId, in: query, schema: {type: integer, format: int64}}
+        - {name: source, in: query, schema: {$ref: '#/components/schemas/WorkoutSource'}}
+      responses:
+        '200': {description: Page, content: {application/json: {schema: {$ref: '#/components/schemas/WorkoutPageResponse'}}}}
+  /api/v1/workouts/{id}:
+    parameters:
+      - {name: id, in: path, required: true, schema: {type: integer, format: int64}}
+    get:
+      tags: [Workouts]
+      operationId: getWorkout
+      responses:
+        '200': {description: Found, content: {application/json: {schema: {$ref: '#/components/schemas/WorkoutResponse'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+    patch:
+      tags: [Workouts]
+      operationId: patchWorkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/WorkoutPatchRequest'}
+      responses:
+        '200': {description: Updated, content: {application/json: {schema: {$ref: '#/components/schemas/WorkoutResponse'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [Workouts]
+      operationId: deleteWorkout
+      responses:
+        '204': {description: Deleted}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/v1/shoes:
+    post:
+      tags: [Shoes]
+      operationId: createShoe
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoeCreateRequest'}}}}
+      responses:
+        '201': {description: Created, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoeResponse'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+    get:
+      tags: [Shoes]
+      operationId: searchShoes
+      x-spring-paginated: true
+      responses:
+        '200': {description: Page, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoePageResponse'}}}}
+  /api/v1/shoes/{id}:
+    parameters:
+      - {name: id, in: path, required: true, schema: {type: integer, format: int64}}
+    get:
+      tags: [Shoes]
+      operationId: getShoe
+      responses:
+        '200': {description: Found, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoeResponse'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+    patch:
+      tags: [Shoes]
+      operationId: patchShoe
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoePatchRequest'}}}}
+      responses:
+        '200': {description: Updated, content: {application/json: {schema: {$ref: '#/components/schemas/RunningShoeResponse'}}}}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [Shoes]
+      operationId: deleteShoe
+      responses:
+        '204': {description: Deleted}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {description: Shoe is referenced, content: {application/json: {schema: {$ref: '#/components/schemas/ApiError'}}}}
+components:
+  responses:
+    BadRequest: {description: Bad request, content: {application/json: {schema: {$ref: '#/components/schemas/ApiError'}}}}
+    NotFound: {description: Not found, content: {application/json: {schema: {$ref: '#/components/schemas/ApiError'}}}}
+  schemas:
+    WorkoutType:
+      type: string
+      enum: [EASY_RUN, RECOVERY_RUN, LONG_RUN, TEMPO_RUN, THRESHOLD_RUN, INTERVALS, REPETITIONS, FARTLEK, PROGRESSION_RUN, HILL_REPEATS, RACE, OTHER]
+    WorkoutSegmentType:
+      type: string
+      enum: [WARM_UP, RUN, INTERVAL, RECOVERY, TEMPO, THRESHOLD, FARTLEK_FAST, FARTLEK_RECOVERY, HILL, COOL_DOWN, OTHER]
+    WorkoutFeeling: {type: string, enum: [VERY_BAD, BAD, NORMAL, GOOD, VERY_GOOD]}
+    WorkoutSource: {type: string, enum: [MANUAL, GARMIN, STRAVA, COROS, POLAR, SUUNTO, APPLE, OTHER]}
+    WorkoutSegmentRequest:
+      type: object
+      required: [position, segmentType]
+      properties:
+        position: {type: integer, minimum: 1}
+        segmentType: {$ref: '#/components/schemas/WorkoutSegmentType'}
+        name: {type: string, maxLength: 200}
+        repetitions: {type: integer, minimum: 1}
+        distanceMeters: {type: integer, minimum: 1}
+        durationSeconds: {type: integer, minimum: 1}
+        targetPaceSecondsPerKm: {type: integer, minimum: 1}
+        actualPaceSecondsPerKm: {type: integer, minimum: 1}
+        restDistanceMeters: {type: integer, minimum: 1}
+        restDurationSeconds: {type: integer, minimum: 1}
+        averageHeartRate: {type: integer, minimum: 1}
+        maxHeartRate: {type: integer, minimum: 1}
+        averageCadence: {type: integer, minimum: 1}
+        averagePowerWatts: {type: integer, minimum: 1}
+        elevationGainMeters: {type: integer, minimum: 0}
+        description: {type: string, maxLength: 1000}
+    WorkoutSegmentResponse:
+      allOf:
+        - type: object
+          required: [id]
+          properties: {id: {type: integer, format: int64}}
+        - {$ref: '#/components/schemas/WorkoutSegmentRequest'}
+    WorkoutLapRequest:
+      type: object
+      required: [position]
+      properties:
+        position: {type: integer, minimum: 1}
+        distanceMeters: {type: integer, minimum: 1}
+        durationSeconds: {type: integer, minimum: 1}
+        paceSecondsPerKm: {type: integer, minimum: 1}
+        averageHeartRate: {type: integer, minimum: 1}
+        maxHeartRate: {type: integer, minimum: 1}
+        averageCadence: {type: integer, minimum: 1}
+        averagePowerWatts: {type: integer, minimum: 1}
+        elevationGainMeters: {type: integer, minimum: 0}
+        elevationLossMeters: {type: integer, minimum: 0}
+    WorkoutLapResponse:
+      allOf:
+        - type: object
+          required: [id]
+          properties: {id: {type: integer, format: int64}}
+        - {$ref: '#/components/schemas/WorkoutLapRequest'}
+    WorkoutTrackPointRequest:
+      type: object
+      required: [position, latitude, longitude]
+      properties:
+        position: {type: integer, minimum: 1}
+        recordedAt: {type: string, format: date-time}
+        latitude: {type: number, minimum: -90, maximum: 90}
+        longitude: {type: number, minimum: -180, maximum: 180}
+        elevationMeters: {type: number}
+        heartRate: {type: integer, minimum: 1}
+        cadence: {type: integer, minimum: 1}
+        powerWatts: {type: integer, minimum: 1}
+    WorkoutTrackPointResponse:
+      allOf:
+        - type: object
+          required: [id]
+          properties: {id: {type: integer, format: int64}}
+        - {$ref: '#/components/schemas/WorkoutTrackPointRequest'}
+    WorkoutCreateRequest:
+      type: object
+      required: [workoutDate, workoutType, completed, source]
+      properties:
+        workoutDate: {type: string, format: date}
+        name: {type: string, maxLength: 200}
+        workoutType: {$ref: '#/components/schemas/WorkoutType'}
+        description: {type: string, maxLength: 2000}
+        notes: {type: string, maxLength: 5000}
+        distanceMeters: {type: integer, minimum: 1}
+        durationSeconds: {type: integer, minimum: 1}
+        movingTimeSeconds: {type: integer, minimum: 1}
+        averagePaceSecondsPerKm: {type: integer, minimum: 1}
+        bestPaceSecondsPerKm: {type: integer, minimum: 1}
+        averageHeartRate: {type: integer, minimum: 1}
+        maxHeartRate: {type: integer, minimum: 1}
+        averageCadence: {type: integer, minimum: 1}
+        maxCadence: {type: integer, minimum: 1}
+        averagePowerWatts: {type: integer, minimum: 1}
+        maxPowerWatts: {type: integer, minimum: 1}
+        elevationGainMeters: {type: integer, minimum: 0}
+        elevationLossMeters: {type: integer, minimum: 0}
+        minimumElevationMeters: {type: number}
+        maximumElevationMeters: {type: number}
+        calories: {type: integer, minimum: 0}
+        averageStrideLengthMeters: {type: number, minimum: 0}
+        verticalOscillationCm: {type: number, minimum: 0}
+        groundContactTimeMs: {type: integer, minimum: 1}
+        perceivedEffort: {type: integer, minimum: 1, maximum: 10}
+        feeling: {$ref: '#/components/schemas/WorkoutFeeling'}
+        completed: {type: boolean, default: true}
+        temperatureCelsius: {type: number}
+        humidityPercent: {type: integer, minimum: 0, maximum: 100}
+        windSpeedKph: {type: number, minimum: 0}
+        weather: {type: string, maxLength: 100}
+        location: {type: string, maxLength: 200}
+        routeName: {type: string, maxLength: 200}
+        source: {$ref: '#/components/schemas/WorkoutSource'}
+        externalActivityId: {type: string, maxLength: 200}
+        shoeId: {type: integer, format: int64}
+        segments: {type: array, items: {$ref: '#/components/schemas/WorkoutSegmentRequest'}}
+        laps: {type: array, items: {$ref: '#/components/schemas/WorkoutLapRequest'}}
+        trackPoints: {type: array, items: {$ref: '#/components/schemas/WorkoutTrackPointRequest'}}
+    WorkoutPatchRequest:
+      type: object
+      properties:
+        workoutDate: {type: string, format: date, nullable: true}
+        name: {type: string, maxLength: 200, nullable: true}
+        workoutType: {allOf: [{$ref: '#/components/schemas/WorkoutType'}], nullable: true}
+        description: {type: string, maxLength: 2000, nullable: true}
+        notes: {type: string, maxLength: 5000, nullable: true}
+        distanceMeters: {type: integer, minimum: 1, nullable: true}
+        durationSeconds: {type: integer, minimum: 1, nullable: true}
+        movingTimeSeconds: {type: integer, minimum: 1, nullable: true}
+        averagePaceSecondsPerKm: {type: integer, minimum: 1, nullable: true}
+        bestPaceSecondsPerKm: {type: integer, minimum: 1, nullable: true}
+        averageHeartRate: {type: integer, minimum: 1, nullable: true}
+        maxHeartRate: {type: integer, minimum: 1, nullable: true}
+        averageCadence: {type: integer, minimum: 1, nullable: true}
+        maxCadence: {type: integer, minimum: 1, nullable: true}
+        averagePowerWatts: {type: integer, minimum: 1, nullable: true}
+        maxPowerWatts: {type: integer, minimum: 1, nullable: true}
+        elevationGainMeters: {type: integer, minimum: 0, nullable: true}
+        elevationLossMeters: {type: integer, minimum: 0, nullable: true}
+        minimumElevationMeters: {type: number, nullable: true}
+        maximumElevationMeters: {type: number, nullable: true}
+        calories: {type: integer, minimum: 0, nullable: true}
+        averageStrideLengthMeters: {type: number, minimum: 0, nullable: true}
+        verticalOscillationCm: {type: number, minimum: 0, nullable: true}
+        groundContactTimeMs: {type: integer, minimum: 1, nullable: true}
+        perceivedEffort: {type: integer, minimum: 1, maximum: 10, nullable: true}
+        feeling: {allOf: [{$ref: '#/components/schemas/WorkoutFeeling'}], nullable: true}
+        completed: {type: boolean, nullable: true}
+        temperatureCelsius: {type: number, nullable: true}
+        humidityPercent: {type: integer, minimum: 0, maximum: 100, nullable: true}
+        windSpeedKph: {type: number, minimum: 0, nullable: true}
+        weather: {type: string, maxLength: 100, nullable: true}
+        location: {type: string, maxLength: 200, nullable: true}
+        routeName: {type: string, maxLength: 200, nullable: true}
+        source: {allOf: [{$ref: '#/components/schemas/WorkoutSource'}], nullable: true}
+        externalActivityId: {type: string, maxLength: 200, nullable: true}
+        shoeId: {type: integer, format: int64, nullable: true}
+        segments: {type: array, nullable: true, items: {$ref: '#/components/schemas/WorkoutSegmentRequest'}}
+        laps: {type: array, nullable: true, items: {$ref: '#/components/schemas/WorkoutLapRequest'}}
+        trackPoints: {type: array, nullable: true, items: {$ref: '#/components/schemas/WorkoutTrackPointRequest'}}
+    WorkoutResponse:
+      allOf:
+        - {$ref: '#/components/schemas/WorkoutCreateRequest'}
+        - type: object
+          required: [id, createdAt, updatedAt]
+          properties:
+            id: {type: integer, format: int64}
+            createdAt: {type: string, format: date-time}
+            updatedAt: {type: string, format: date-time}
+            segments: {type: array, items: {$ref: '#/components/schemas/WorkoutSegmentResponse'}}
+            laps: {type: array, items: {$ref: '#/components/schemas/WorkoutLapResponse'}}
+            trackPoints: {type: array, items: {$ref: '#/components/schemas/WorkoutTrackPointResponse'}}
+    WorkoutSummaryResponse:
+      type: object
+      required: [id, workoutDate, workoutType, completed, source, createdAt, updatedAt]
+      properties:
+        id: {type: integer, format: int64}
+        workoutDate: {type: string, format: date}
+        name: {type: string}
+        workoutType: {$ref: '#/components/schemas/WorkoutType'}
+        distanceMeters: {type: integer}
+        durationSeconds: {type: integer}
+        completed: {type: boolean}
+        source: {$ref: '#/components/schemas/WorkoutSource'}
+        shoeId: {type: integer, format: int64}
+        createdAt: {type: string, format: date-time}
+        updatedAt: {type: string, format: date-time}
+    PageMetadata:
+      type: object
+      required: [page, size, totalElements, totalPages]
+      properties:
+        page: {type: integer}
+        size: {type: integer}
+        totalElements: {type: integer, format: int64}
+        totalPages: {type: integer}
+    WorkoutPageResponse:
+      type: object
+      required: [content, page]
+      properties:
+        content: {type: array, items: {$ref: '#/components/schemas/WorkoutSummaryResponse'}}
+        page: {$ref: '#/components/schemas/PageMetadata'}
+    RunningShoeCreateRequest:
+      type: object
+      required: [brand, model, initialDistanceMeters, active]
+      properties:
+        brand: {type: string, minLength: 1, maxLength: 100}
+        model: {type: string, minLength: 1, maxLength: 150}
+        nickname: {type: string, maxLength: 100}
+        purchaseDate: {type: string, format: date}
+        initialDistanceMeters: {type: integer, format: int64, minimum: 0, default: 0}
+        active: {type: boolean, default: true}
+        notes: {type: string, maxLength: 1000}
+    RunningShoePatchRequest:
+      type: object
+      properties:
+        brand: {type: string, minLength: 1, maxLength: 100, nullable: true}
+        model: {type: string, minLength: 1, maxLength: 150, nullable: true}
+        nickname: {type: string, maxLength: 100, nullable: true}
+        purchaseDate: {type: string, format: date, nullable: true}
+        initialDistanceMeters: {type: integer, format: int64, minimum: 0, nullable: true}
+        active: {type: boolean, nullable: true}
+        notes: {type: string, maxLength: 1000, nullable: true}
+    RunningShoeResponse:
+      allOf:
+        - {$ref: '#/components/schemas/RunningShoeCreateRequest'}
+        - type: object
+          required: [id, createdAt, updatedAt]
+          properties:
+            id: {type: integer, format: int64}
+            createdAt: {type: string, format: date-time}
+            updatedAt: {type: string, format: date-time}
+    RunningShoePageResponse:
+      type: object
+      required: [content, page]
+      properties:
+        content: {type: array, items: {$ref: '#/components/schemas/RunningShoeResponse'}}
+        page: {$ref: '#/components/schemas/PageMetadata'}
+    ApiError:
+      type: object
+      required: [code, message, timestamp]
+      properties:
+        code: {type: string}
+        message: {type: string}
+        timestamp: {type: string, format: date-time}
+        fieldErrors: {type: object, additionalProperties: {type: string}}

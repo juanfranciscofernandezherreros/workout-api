@@ -1,0 +1,1 @@
+package com.example.workout.workout.repository; import com.example.workout.workout.entity.WorkoutSegmentEntity; import org.springframework.data.jpa.repository.JpaRepository; public interface WorkoutSegmentRepository extends JpaRepository<WorkoutSegmentEntity,Long> {}

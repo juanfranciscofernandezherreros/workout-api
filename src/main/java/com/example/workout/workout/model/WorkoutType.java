@@ -1,0 +1,1 @@
+package com.example.workout.workout.model; public enum WorkoutType { EASY_RUN, RECOVERY_RUN, LONG_RUN, TEMPO_RUN, THRESHOLD_RUN, INTERVALS, REPETITIONS, FARTLEK, PROGRESSION_RUN, HILL_REPEATS, RACE, OTHER }

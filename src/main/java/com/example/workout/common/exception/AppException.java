@@ -1,0 +1,1 @@
+package com.example.workout.common.exception; import lombok.Getter; @Getter public class AppException extends RuntimeException { private final AppError error; public AppException(AppError error){ super(error.message()); this.error=error; } }

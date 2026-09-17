@@ -1,0 +1,1 @@
+package com.example.workout.workout.repository; import com.example.workout.workout.entity.WorkoutEntity; import org.springframework.data.jpa.repository.*; public interface WorkoutRepository extends JpaRepository<WorkoutEntity,Long>, JpaSpecificationExecutor<WorkoutEntity> { boolean existsByShoeId(Long shoeId); }

@@ -1,0 +1,1 @@
+package com.example.workout.workout.model; import java.time.LocalDate; public record WorkoutFilter(WorkoutType workoutType, LocalDate workoutDate, LocalDate workoutDateFrom, LocalDate workoutDateTo, Boolean completed, Long shoeId, WorkoutSource source) {}

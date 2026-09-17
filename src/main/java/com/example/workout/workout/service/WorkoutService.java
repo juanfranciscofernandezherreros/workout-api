@@ -1,0 +1,1 @@
+package com.example.workout.workout.service; import com.example.workout.workout.model.*; import org.springframework.data.domain.*; public interface WorkoutService { Workout create(Workout workout); Workout get(Long id); Page<Workout> search(WorkoutFilter filter, Pageable pageable); Workout patch(Long id, Workout patch, WorkoutPatchPresence presence); void delete(Long id); }
