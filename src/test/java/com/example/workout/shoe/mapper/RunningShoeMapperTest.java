@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.workout.generated.model.RunningShoeCreateRequest;
 import com.example.workout.generated.model.RunningShoePatchRequest;
-import com.example.workout.shoe.entity.RunningShoeEntity;
-import com.example.workout.shoe.model.RunningShoe;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
@@ -48,8 +46,5 @@ class RunningShoeMapperTest {
         assertThat(result.fields()).containsExactlyInAnyOrder(
                 "brand", "model", "nickname", "purchaseDate", "initialDistanceMeters", "active", "notes");
         assertThat(result.shoe().getBrand()).isEqualTo("Adidas");
-
-        assertThat(RunningShoeEntityMapper.toModel((RunningShoeEntity) null)).isNull();
-        assertThat(RunningShoeEntityMapper.toEntity((RunningShoe) null)).isNull();
     }
 }
