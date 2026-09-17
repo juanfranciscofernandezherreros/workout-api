@@ -3,119 +3,160 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Workout API - Informe de generación</title>
+  <title>Workout API · Demostración del agente</title>
   <style>
-    :root { color-scheme: light dark; --bg:#0b1020; --card:#121933; --text:#e8ecf8; --muted:#aab4d0; --accent:#7aa2ff; --ok:#63d297; --warn:#f0c36a; --border:#263052; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#0b1020,#10162b); color:var(--text); line-height:1.6; }
-    main { max-width:1050px; margin:0 auto; padding:48px 24px 72px; }
-    h1,h2,h3 { line-height:1.2; }
-    h1 { font-size:clamp(2.2rem,5vw,4rem); margin:0 0 12px; }
-    h2 { margin-top:42px; font-size:1.7rem; }
-    p,li { color:var(--muted); }
-    .lead { font-size:1.2rem; max-width:820px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:28px 0; }
-    .card { background:rgba(18,25,51,.9); border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,.18); }
-    .metric { font-size:2rem; font-weight:800; color:var(--accent); }
-    .ok { color:var(--ok); }
-    .warn { color:var(--warn); }
-    code { background:#0a0f20; border:1px solid var(--border); border-radius:6px; padding:.15rem .35rem; color:#c8d6ff; }
-    table { width:100%; border-collapse:collapse; margin-top:16px; overflow:hidden; border-radius:12px; }
-    th,td { border:1px solid var(--border); padding:12px 14px; text-align:left; vertical-align:top; }
-    th { background:#18213f; color:var(--text); }
-    td { color:var(--muted); }
-    .note { border-left:4px solid var(--warn); padding:12px 16px; background:rgba(240,195,106,.08); border-radius:0 10px 10px 0; }
-    .footer { margin-top:50px; padding-top:20px; border-top:1px solid var(--border); color:var(--muted); font-size:.95rem; }
-    a { color:var(--accent); }
+    :root{--bg:#07111f;--panel:#0e1b2d;--panel2:#12233a;--text:#eef5ff;--muted:#a8b7cc;--accent:#66a3ff;--ok:#54d38a;--warn:#f5c76b;--border:#223a59;--post:#54d38a;--get:#66a3ff;--patch:#f5c76b;--delete:#ff7d8d}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#07111f 0%,#091628 55%,#07111f 100%);color:var(--text);line-height:1.6}main{max-width:1180px;margin:auto;padding:56px 24px 80px}h1,h2,h3{line-height:1.15}h1{font-size:clamp(2.5rem,6vw,5rem);letter-spacing:-.04em;margin:.2rem 0 1rem}h2{font-size:2rem;margin-top:56px}h3{font-size:1.2rem;margin:.2rem 0 .6rem}p,li,td{color:var(--muted)}a{color:var(--accent)}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}code{background:#091526;border:1px solid var(--border);padding:.12rem .35rem;border-radius:6px;color:#d9e7ff}.eyebrow{color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.13em;font-size:.78rem}.lead{font-size:1.25rem;max-width:900px}.badges{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}.badge{border:1px solid var(--border);background:rgba(14,27,45,.9);padding:8px 12px;border-radius:999px;color:#dbe8fb;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:28px 0}.card{background:linear-gradient(180deg,rgba(18,35,58,.95),rgba(14,27,45,.95));border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 14px 38px rgba(0,0,0,.18)}.metric{font-size:2.2rem;font-weight:900;color:var(--accent);letter-spacing:-.03em}.ok{color:var(--ok)}.warn{color:var(--warn)}.callout{border-left:4px solid var(--accent);padding:16px 18px;background:rgba(102,163,255,.08);border-radius:0 12px 12px 0;margin:22px 0}.client{border-left-color:var(--ok);background:rgba(84,211,138,.07)}table{width:100%;border-collapse:collapse;margin:18px 0 28px;background:rgba(14,27,45,.6)}th,td{border:1px solid var(--border);padding:12px 14px;text-align:left;vertical-align:top}th{background:#12233a;color:var(--text)}.api{display:grid;gap:14px}.endpoint{border:1px solid var(--border);background:rgba(14,27,45,.86);border-radius:16px;overflow:hidden}.endpoint-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(18,35,58,.88)}.method{font-weight:900;font-size:.82rem;min-width:64px;text-align:center;padding:6px 9px;border-radius:7px;color:#07111f}.GET{background:var(--get)}.POST{background:var(--post)}.PATCH{background:var(--patch)}.DELETE{background:var(--delete)}.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;color:#eaf2ff}.endpoint-body{padding:16px}.endpoint-body p{margin:.35rem 0}.response{font-weight:800;color:var(--text)}pre{overflow:auto;background:#06101d;border:1px solid var(--border);padding:16px;border-radius:12px;color:#cfe0f8;font-size:.9rem;white-space:pre-wrap}.timeline{counter-reset:step;display:grid;gap:14px}.step{position:relative;padding:18px 18px 18px 64px;background:rgba(14,27,45,.72);border:1px solid var(--border);border-radius:14px}.step:before{counter-increment:step;content:counter(step);position:absolute;left:18px;top:18px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#07111f;font-weight:900}.footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.92rem}.small{font-size:.92rem}@media(max-width:720px){.endpoint-head{align-items:flex-start;flex-wrap:wrap}table{font-size:.9rem}}
   </style>
 </head>
 <body>
 <main>
-  <header>
-    <p><strong>workout-api</strong> · documentación técnica</p>
-    <h1>Informe de generación del microservicio</h1>
-    <p class="lead">Resumen de cómo se construyó, validó y publicó el microservicio Spring Boot <code>workout-api</code>, siguiendo las reglas del repositorio <code>springboot-agent-rules</code>.</p>
-  </header>
+  <section class="hero">
+    <div class="eyebrow">Demostración de capacidad del agente</div>
+    <h1>Un microservicio completo, generado, corregido y validado de extremo a extremo</h1>
+    <p class="lead">Este documento muestra cómo el agente transformó una petición funcional en un microservicio Spring Boot API-first listo para evolucionar: contrato OpenAPI, capas de aplicación, SQL Server, Flyway, Docker, tests, Cucumber, CI, cobertura mínima del 80% y publicación en <code>main</code>.</p>
+    <div class="badges"><span class="badge">Java 21</span><span class="badge">Spring Boot</span><span class="badge">OpenAPI-first</span><span class="badge">SQL Server</span><span class="badge">Flyway</span><span class="badge">Docker</span><span class="badge">Cucumber</span><span class="badge">JaCoCo ≥80%</span><span class="badge">GitHub Actions</span></div>
+  </section>
 
   <section class="grid">
-    <div class="card"><div class="metric">≈ 10–15 min</div><p>Tiempo observable de la fase final de corrección, CI, cobertura y merge.</p></div>
-    <div class="card"><div class="metric ok">17</div><p>Tests ejecutados en el <code>mvn verify</code> final, sin fallos ni errores.</p></div>
-    <div class="card"><div class="metric ok">8</div><p>Escenarios Cucumber ejecutados correctamente.</p></div>
-    <div class="card"><div class="metric ok">≥ 80%</div><p>Umbral de cobertura de líneas exigido por JaCoCo y superado por el build final.</p></div>
+    <div class="card"><div class="metric">10</div><p>Endpoints REST definidos desde el contrato OpenAPI.</p></div>
+    <div class="card"><div class="metric ok">17</div><p>Tests ejecutados en el <code>mvn verify</code> final, sin fallos.</p></div>
+    <div class="card"><div class="metric ok">8/8</div><p>Escenarios Cucumber ejecutados correctamente.</p></div>
+    <div class="card"><div class="metric ok">≥80%</div><p>Umbral de cobertura de líneas exigido por JaCoCo y superado.</p></div>
+    <div class="card"><div class="metric">≈10–15 min</div><p>Ventana medible de estabilización final, CI, cobertura y merge.</p></div>
   </section>
 
   <section>
-    <h2>¿Cuánto tardó?</h2>
-    <p>No existe un cronómetro global exacto asociado a toda la conversación, por lo que no sería correcto afirmar un tiempo total al segundo. Sí hay una ventana verificable en GitHub Actions para la fase final: los trabajos de CI, correcciones de tests, aumento de cobertura y merge a <code>main</code> se desarrollaron aproximadamente entre las 21:32 y las 21:43 del 17 de septiembre de 2026.</p>
-    <p>Por tanto, la parte observable y medible de estabilización y publicación duró aproximadamente <strong>10–15 minutos</strong>. La generación inicial del código ocurrió antes de esa ventana, así que el tiempo total real fue algo mayor.</p>
-    <div class="note"><strong>Importante:</strong> esta cifra es una estimación basada en timestamps de commits y GitHub Actions, no un tiempo de CPU ni una medición exacta de principio a fin.</div>
+    <h2>Qué demuestra este ejercicio</h2>
+    <div class="callout client"><strong>Valor para un cliente:</strong> el agente no se limitó a escribir código. Leyó un repositorio de reglas, diseñó la API desde OpenAPI, generó el proyecto, detectó errores reales en CI, corrigió dependencias y tipos, reparó la configuración de Cucumber, elevó la cobertura desde un 12% hasta cumplir el 80% y publicó únicamente cuando los gates acordados pasaron.</div>
+    <p>El resultado es trazable: cada iteración quedó registrada en commits y GitHub Actions. Esto permite usar el agente como acelerador de delivery sin renunciar a controles técnicos objetivos.</p>
   </section>
 
   <section>
-    <h2>Qué se generó</h2>
-    <ul>
-      <li>Microservicio Spring Boot con Java 21 y Maven Wrapper.</li>
-      <li>Contrato OpenAPI como fuente de verdad, con generación de interfaces de servidor.</li>
-      <li>CRUD y búsqueda de entrenamientos y zapatillas de running.</li>
-      <li>Modelo detallado de entrenamientos: segmentos, laps, trackpoints, métricas de ritmo, pulso, potencia, cadencia, elevación y condiciones ambientales.</li>
-      <li>Persistencia JPA sobre SQL Server con Flyway y <code>ddl-auto=validate</code>.</li>
-      <li>Dockerfile multi-stage y <code>compose.yaml</code> con SQL Server y volumen persistente.</li>
-      <li>Mappers, capa de servicio, repositorios, controladores y manejo centralizado de errores.</li>
-      <li>Tests unitarios, tests de controladores, Cucumber y JaCoCo.</li>
-      <li>Workflow de GitHub Actions con gates de compilación y cobertura.</li>
-    </ul>
+    <h2>Prompt utilizado</h2>
+    <p>El texto literal completo del prompt inicial no está disponible íntegramente en el contexto actual. Para no atribuir al usuario palabras que no puedo verificar, se documenta a continuación una <strong>reconstrucción fiel del encargo</strong> a partir de los requisitos que guiaron la implementación:</p>
+    <pre>Genera un microservicio Spring Boot para gestionar entrenamientos de running y zapatillas siguiendo estrictamente las reglas de:
+https://github.com/juanfranciscofernandezherreros/springboot-agent-rules
+
+Repositorio objetivo:
+https://github.com/juanfranciscofernandezherreros/workout-api
+
+Requisitos principales:
+- Arquitectura API-first: OpenAPI es la fuente de verdad y las interfaces de controlador deben generarse desde el contrato.
+- Java 21 + Spring Boot + Maven Wrapper.
+- CRUD y búsqueda de workouts.
+- CRUD y búsqueda de running shoes.
+- Workout con información rica: tipo, fecha, métricas de distancia/tiempo/ritmo, frecuencia cardiaca, cadencia, potencia, elevación, esfuerzo, feeling, tiempo atmosférico, ubicación, origen, zapatilla, segmentos, laps y track points.
+- Filtros de búsqueda por workoutType, workoutDate, rango de fechas, completed, shoeId y source.
+- Persistencia JPA en SQL Server.
+- Migraciones Flyway y ddl-auto=validate.
+- Dockerfile y Docker Compose con SQL Server y volumen persistente.
+- PATCH con semántica de presencia/null mediante JsonNullable.
+- Manejo centralizado de errores.
+- Tests unitarios, controladores y Cucumber.
+- JaCoCo con mínimo 80% de cobertura de líneas.
+- GitHub Actions para validar compilación y mvn verify.
+- Corregir los errores encontrados, hacer commits y push paso a paso, sin detenerse a pedir confirmación.
+- Publicar en main cuando compile, los tests pasen y JaCoCo cumpla el 80%.</pre>
+    <p class="small">Esta reconstrucción representa el objetivo técnico ejecutado; no se presenta como una transcripción literal.</p>
   </section>
 
   <section>
-    <h2>Proceso seguido</h2>
-    <table>
-      <thead><tr><th>Fase</th><th>Trabajo realizado</th><th>Resultado</th></tr></thead>
-      <tbody>
-        <tr><td>1. Reglas</td><td>Lectura y aplicación de arquitectura, OpenAPI, base de datos, testing, estilo, excepciones y publicación.</td><td class="ok">Aplicadas</td></tr>
-        <tr><td>2. Diseño API-first</td><td>Definición de <code>src/main/resources/static/openapi.yaml</code> y configuración de OpenAPI Generator.</td><td class="ok">Validado</td></tr>
-        <tr><td>3. Dominio y persistencia</td><td>Entidades, modelos, repositorios, servicios, mappers y migración Flyway para SQL Server.</td><td class="ok">Compila</td></tr>
-        <tr><td>4. Contenedores</td><td>Dockerfile de producción y Compose con SQL Server, inicialización y persistencia.</td><td>Incluido</td></tr>
-        <tr><td>5. Primera verificación</td><td>La ejecución local quedó bloqueada por ausencia de Maven/Docker y resolución DNS en el entorno.</td><td class="warn">Se delegó a CI</td></tr>
-        <tr><td>6. GitHub Actions</td><td>Se utilizó CI como entorno de compilación y verificación reproducible.</td><td class="ok">Operativo</td></tr>
-        <tr><td>7. Cucumber</td><td>El primer <code>verify</code> detectó falta de <code>@CucumberContextConfiguration</code>; se corrigió.</td><td class="ok">8/8 escenarios</td></tr>
-        <tr><td>8. Cobertura</td><td>JaCoCo reportó inicialmente 12%. Se añadieron tests reales sobre servicios, controladores, mappers y excepciones.</td><td class="ok">Umbral ≥80% superado</td></tr>
-        <tr><td>9. Publicación</td><td>Con <code>compile</code> y <code>mvn verify</code> verdes, se hizo fast-forward de la rama de trabajo a <code>main</code>.</td><td class="ok">Publicado</td></tr>
-      </tbody>
-    </table>
+    <h2>Proceso ejecutado por el agente</h2>
+    <div class="timeline">
+      <div class="step"><h3>Interpretación de reglas</h3><p>Lectura de las normas de arquitectura, contratos, persistencia, testing, mappers, excepciones, estilo y publicación.</p></div>
+      <div class="step"><h3>Diseño API-first</h3><p>Creación de <code>openapi.yaml</code> como fuente de verdad y configuración de OpenAPI Generator para producir interfaces y modelos.</p></div>
+      <div class="step"><h3>Implementación funcional</h3><p>Controladores, servicios, repositorios, modelos, entidades, mappers, errores, migración Flyway, SQL Server, Docker y Compose.</p></div>
+      <div class="step"><h3>Compilación real</h3><p>El CI detectó dependencias ausentes en código generado y una colisión entre enums generados y de dominio; ambos problemas se corrigieron.</p></div>
+      <div class="step"><h3>Pruebas y Cucumber</h3><p>Se corrigió la integración de Cucumber con Spring y se validaron 8 escenarios.</p></div>
+      <div class="step"><h3>Cobertura</h3><p>JaCoCo mostró inicialmente un 12%. Se añadieron tests reales sobre servicios, controladores, mappers y excepciones hasta superar el umbral del 80%.</p></div>
+      <div class="step"><h3>Publicación controlada</h3><p>Con <code>compile</code> y <code>mvn verify</code> verdes, se hizo fast-forward a <code>main</code>.</p></div>
+    </div>
   </section>
 
   <section>
-    <h2>Incidencias que ayudaron a mejorar el proyecto</h2>
-    <p>El CI fue útil para detectar problemas que una generación puramente estática no habría demostrado. Primero, Cucumber compilaba pero no podía arrancar por falta de configuración de contexto. Después de resolverlo, el build llegó a JaCoCo y mostró una cobertura del 12%, claramente insuficiente para la regla del proyecto.</p>
-    <p>En lugar de bajar el umbral, se incrementó la cobertura con tests adicionales. Durante esa ampliación también aparecieron errores de tipos en los tests —se estaban utilizando literales <code>Long</code> en propiedades declaradas como <code>Integer</code>—, que fueron corregidos antes de la ejecución final.</p>
+    <h2>API completa</h2>
+    <p>El contrato OpenAPI define dos dominios públicos: <strong>Workouts</strong> y <strong>Shoes</strong>. A continuación se listan los 10 endpoints expuestos.</p>
+    <div class="api">
+      <article class="endpoint"><div class="endpoint-head"><span class="method POST">POST</span><span class="path">/api/v1/workouts</span></div><div class="endpoint-body"><h3>Crear entrenamiento</h3><p><strong>Body:</strong> <code>WorkoutCreateRequest</code>. Obligatorios: <code>workoutDate</code>, <code>workoutType</code>, <code>completed</code>, <code>source</code>. Puede incluir segmentos, laps y track points.</p><p><span class="response">201</span> Workout creado · <span class="response">400</span> petición inválida.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method GET">GET</span><span class="path">/api/v1/workouts</span></div><div class="endpoint-body"><h3>Buscar entrenamientos</h3><p><strong>Filtros:</strong> <code>workoutType</code>, <code>workoutDate</code>, <code>workoutDateFrom</code>, <code>workoutDateTo</code>, <code>completed</code>, <code>shoeId</code>, <code>source</code>, además de paginación Spring.</p><p><span class="response">200</span> Página de <code>WorkoutSummaryResponse</code>.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method GET">GET</span><span class="path">/api/v1/workouts/{id}</span></div><div class="endpoint-body"><h3>Obtener entrenamiento</h3><p><strong>Path:</strong> <code>id</code> int64.</p><p><span class="response">200</span> <code>WorkoutResponse</code> · <span class="response">404</span> no encontrado.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method PATCH">PATCH</span><span class="path">/api/v1/workouts/{id}</span></div><div class="endpoint-body"><h3>Modificar parcialmente entrenamiento</h3><p><strong>Body:</strong> <code>WorkoutPatchRequest</code>. Soporta presencia explícita y valores nulos para PATCH mediante <code>JsonNullable</code>.</p><p><span class="response">200</span> actualizado · <span class="response">400</span> inválido · <span class="response">404</span> no encontrado.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method DELETE">DELETE</span><span class="path">/api/v1/workouts/{id}</span></div><div class="endpoint-body"><h3>Eliminar entrenamiento</h3><p><strong>Path:</strong> <code>id</code> int64.</p><p><span class="response">204</span> eliminado · <span class="response">404</span> no encontrado.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method POST">POST</span><span class="path">/api/v1/shoes</span></div><div class="endpoint-body"><h3>Crear zapatilla</h3><p><strong>Body:</strong> <code>RunningShoeCreateRequest</code>.</p><p><span class="response">201</span> creada · <span class="response">400</span> petición inválida.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method GET">GET</span><span class="path">/api/v1/shoes</span></div><div class="endpoint-body"><h3>Buscar zapatillas</h3><p>Listado paginado mediante parámetros de paginación Spring.</p><p><span class="response">200</span> <code>RunningShoePageResponse</code>.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method GET">GET</span><span class="path">/api/v1/shoes/{id}</span></div><div class="endpoint-body"><h3>Obtener zapatilla</h3><p><strong>Path:</strong> <code>id</code> int64.</p><p><span class="response">200</span> <code>RunningShoeResponse</code> · <span class="response">404</span> no encontrada.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method PATCH">PATCH</span><span class="path">/api/v1/shoes/{id}</span></div><div class="endpoint-body"><h3>Modificar parcialmente zapatilla</h3><p><strong>Body:</strong> <code>RunningShoePatchRequest</code>.</p><p><span class="response">200</span> actualizada · <span class="response">404</span> no encontrada.</p></div></article>
+      <article class="endpoint"><div class="endpoint-head"><span class="method DELETE">DELETE</span><span class="path">/api/v1/shoes/{id}</span></div><div class="endpoint-body"><h3>Eliminar zapatilla</h3><p>Impide eliminar una zapatilla referenciada por entrenamientos.</p><p><span class="response">204</span> eliminada · <span class="response">404</span> no encontrada · <span class="response">409</span> zapatilla en uso.</p></div></article>
+    </div>
   </section>
 
   <section>
-    <h2>Gate final de calidad</h2>
-    <p>El criterio de publicación quedó definido de forma simple: el microservicio puede llegar a <code>main</code> si compila y <code>mvn verify</code> termina correctamente, incluyendo los tests y el check de JaCoCo con al menos un 80% de cobertura de líneas del código de aplicación.</p>
-    <ul>
-      <li><code>./mvnw -Dmaven.test.skip=true clean package</code>: <strong class="ok">PASS</strong></li>
-      <li><code>./mvnw verify</code>: <strong class="ok">PASS</strong></li>
-      <li>Tests finales: <strong class="ok">17 ejecutados, 0 failures, 0 errors</strong></li>
-      <li>Cucumber: <strong class="ok">8 escenarios correctos</strong></li>
-      <li>JaCoCo: <strong class="ok">All coverage checks have been met</strong></li>
-      <li>OpenAPI: <strong class="ok">spec sin errores de validación</strong></li>
-    </ul>
+    <h2>Modelo funcional destacado</h2>
+    <table><thead><tr><th>Área</th><th>Capacidades</th></tr></thead><tbody>
+      <tr><td>Tipos de workout</td><td>EASY_RUN, RECOVERY_RUN, LONG_RUN, TEMPO_RUN, THRESHOLD_RUN, INTERVALS, REPETITIONS, FARTLEK, PROGRESSION_RUN, HILL_REPEATS, RACE, OTHER.</td></tr>
+      <tr><td>Segmentos</td><td>WARM_UP, RUN, INTERVAL, RECOVERY, TEMPO, THRESHOLD, FARTLEK_FAST, FARTLEK_RECOVERY, HILL, COOL_DOWN, OTHER.</td></tr>
+      <tr><td>Fuentes</td><td>MANUAL, GARMIN, STRAVA, COROS, POLAR, SUUNTO, APPLE, OTHER.</td></tr>
+      <tr><td>Métricas</td><td>Distancia, duración, moving time, ritmos, pulso, cadencia, potencia, elevación, calorías, stride length, vertical oscillation, ground contact time, esfuerzo y feeling.</td></tr>
+      <tr><td>Contexto</td><td>Temperatura, humedad, viento, weather, localización, ruta, external activity ID y zapatilla asociada.</td></tr>
+      <tr><td>Detalle</td><td>Segmentos, laps y track points con orden y métricas específicas.</td></tr>
+    </tbody></table>
   </section>
 
   <section>
-    <h2>Commits y estado final</h2>
-    <p>El commit que quedó validado antes del merge fue:</p>
-    <p><code>a39b57251a8a880666641ec269336fce7323bebe</code></p>
-    <p>Ese commit se publicó en <code>main</code> una vez que los gates de compilación y cobertura pasaron correctamente.</p>
+    <h2>Ejemplos de uso</h2>
+    <h3>Crear un entrenamiento</h3>
+    <pre>POST /api/v1/workouts
+Content-Type: application/json
+
+{
+  "workoutDate": "2026-09-20",
+  "name": "Long run",
+  "workoutType": "LONG_RUN",
+  "distanceMeters": 20000,
+  "durationSeconds": 6000,
+  "completed": true,
+  "source": "MANUAL",
+  "shoeId": 7
+}</pre>
+    <h3>Buscar entrenamientos</h3>
+    <pre>GET /api/v1/workouts?workoutType=LONG_RUN&amp;workoutDateFrom=2026-09-01&amp;workoutDateTo=2026-09-30&amp;completed=true&amp;page=0&amp;size=20</pre>
+    <h3>PATCH parcial</h3>
+    <pre>PATCH /api/v1/workouts/1
+Content-Type: application/json
+
+{
+  "name": "Long run actualizado",
+  "notes": null,
+  "completed": true
+}</pre>
   </section>
 
   <section>
-    <h2>Conclusión</h2>
-    <p>El objetivo no fue únicamente generar archivos, sino llevar el proyecto hasta un estado demostrablemente compilable y cubierto por tests. La fase final medible tardó del orden de diez minutos y requirió varias iteraciones automáticas de CI. El resultado es un microservicio versionado con contrato OpenAPI, persistencia SQL Server, contenedores, tests y un gate de cobertura mínimo del 80%.</p>
+    <h2>Resultado verificable</h2>
+    <table><thead><tr><th>Gate</th><th>Resultado</th></tr></thead><tbody>
+      <tr><td>OpenAPI validate</td><td class="ok">PASS — spec sin errores.</td></tr>
+      <tr><td>OpenAPI generation</td><td class="ok">PASS — interfaces/modelos generados y compilados.</td></tr>
+      <tr><td>Compile/package</td><td class="ok">PASS.</td></tr>
+      <tr><td>Tests</td><td class="ok">17 ejecutados, 0 failures, 0 errors.</td></tr>
+      <tr><td>Cucumber</td><td class="ok">8 escenarios correctos.</td></tr>
+      <tr><td>JaCoCo</td><td class="ok">All coverage checks have been met (mínimo 80%).</td></tr>
+      <tr><td>Publicación</td><td class="ok">Fast-forward a main tras superar los gates.</td></tr>
+    </tbody></table>
   </section>
 
-  <div class="footer">Documento generado como parte de la documentación técnica del repositorio <code>workout-api</code>.</div>
+  <section>
+    <h2>Tiempo y trazabilidad</h2>
+    <p>No hay un cronómetro único de toda la conversación, por lo que no se presenta una cifra ficticia de principio a fin. La ventana que sí puede demostrarse con timestamps de GitHub para la fase final —correcciones, CI, Cucumber, aumento de cobertura y merge— fue aproximadamente de <strong>10–15 minutos</strong>. La generación inicial ocurrió antes de esa ventana.</p>
+    <div class="callout"><strong>Commit validado antes del merge:</strong> <code>a39b57251a8a880666641ec269336fce7323bebe</code>.</div>
+  </section>
+
+  <section>
+    <h2>Conclusión para cliente</h2>
+    <p>La demostración relevante no es que el agente pueda producir muchos archivos rápidamente, sino que puede recorrer el ciclo completo de ingeniería: interpretar estándares, diseñar contrato, implementar, integrar infraestructura, observar fallos reales, corregirlos, reforzar tests y publicar con gates objetivos. Ese bucle de generación + verificación + corrección es el principal valor mostrado por este ejercicio.</p>
+  </section>
+
+  <div class="footer">Documento de demostración técnica del agente · repositorio <code>workout-api</code> · generado y mantenido junto al código fuente.</div>
 </main>
 </body>
 </html>
