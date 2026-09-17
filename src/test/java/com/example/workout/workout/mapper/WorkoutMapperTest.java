@@ -21,14 +21,14 @@ class WorkoutMapperTest {
         var segment = new WorkoutSegmentRequest();
         segment.setPosition(1);
         segment.setSegmentType(WorkoutSegmentType.INTERVAL);
-        segment.setDistanceMeters(1000L);
-        segment.setDurationSeconds(240L);
-        segment.setRestDurationSeconds(90L);
+        segment.setDistanceMeters(1000);
+        segment.setDurationSeconds(240);
+        segment.setRestDurationSeconds(90);
 
         var lap = new WorkoutLapRequest();
         lap.setPosition(1);
-        lap.setDistanceMeters(1000L);
-        lap.setDurationSeconds(240L);
+        lap.setDistanceMeters(1000);
+        lap.setDurationSeconds(240);
 
         var point = new WorkoutTrackPointRequest();
         point.setPosition(1);
@@ -40,8 +40,8 @@ class WorkoutMapperTest {
         request.setWorkoutDate(LocalDate.of(2026, 9, 20));
         request.setName("Intervals");
         request.setWorkoutType(WorkoutType.INTERVALS);
-        request.setDistanceMeters(10000L);
-        request.setDurationSeconds(3000L);
+        request.setDistanceMeters(10000);
+        request.setDurationSeconds(3000);
         request.setCompleted(true);
         request.setSource(WorkoutSource.MANUAL);
         request.setSegments(List.of(segment));
